@@ -25,9 +25,16 @@ st.title("🎨 StudioAI: Craeating Amazing Paint with Stable Diffusion")
 with st.sidebar:
     st.header("⚙️ Parameters")
     # Basic
-    steps = st.slider("Quality Steps", 15, 50, 30)
+    steps = st.slider("Quality Steps", 15, 50, 20)
     cfg = st.slider("Creativity (CFG)", 1.0, 20.0, 7.5)
     seed = st.number_input("Seed Control", value=42)
+    resolution = st.selectbox(
+        "Resolution",
+        options=[384, 512],
+        index=1,
+        format_func=lambda size: f"{size} × {size}"
+        + (" (lebih ringan)" if size == 384 else " (standar)"),
+    )
 
     st.divider()
 
@@ -62,7 +69,16 @@ with tab_gen:
                 logic.flush_memory()
 
                 generated_list = logic.generate_image(
-                    pipe_txt2img, prompt, neg_prompt, seed, steps, cfg, num_images, scheduler_name
+                    pipe_txt2img,
+                    prompt,
+                    neg_prompt,
+                    seed,
+                    steps,
+                    cfg,
+                    num_images,
+                    scheduler_name,
+                    width=resolution,
+                    height=resolution,
                 )
 
                 st.session_state['generated_images'] = generated_list

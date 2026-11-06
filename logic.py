@@ -82,7 +82,18 @@ def set_scheduler(pipe, scheduler_name):
     return pipe
 
 # Definisikan ulang fungsi generate_image dan tambahkan parameter untuk batch inference
-def generate_image(pipe, prompt, neg_prompt, seed, steps, cfg, num_images=1, scheduler_name="Euler A"):
+def generate_image(
+    pipe,
+    prompt,
+    neg_prompt,
+    seed,
+    steps,
+    cfg,
+    num_images=1,
+    scheduler_name="Euler A",
+    width=512,
+    height=512,
+):
 
     ### MULAI CODE ###
 
@@ -97,7 +108,9 @@ def generate_image(pipe, prompt, neg_prompt, seed, steps, cfg, num_images=1, sch
         negative_prompt=[neg_prompt] * num_images,
         num_inference_steps=steps,
         guidance_scale=cfg,
-        generator=generator
+        generator=generator,
+        width=width,
+        height=height,
     ).images
 
     ### SELESAI CODE ###
